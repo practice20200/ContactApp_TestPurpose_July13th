@@ -7,7 +7,7 @@
 
 import UIKit
 import Elements
-class WelcomViewController: UIViewController{
+class WelcomeViewController: UIViewController{
     
 
     lazy var imageView : BaseUIImageView = {
