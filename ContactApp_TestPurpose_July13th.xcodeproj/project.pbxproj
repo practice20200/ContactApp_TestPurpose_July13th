@@ -13,6 +13,7 @@
 		B35FCF6B287EFF270027FEC9 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */; };
 		B35FCF6E287F009E0027FEC9 /* Elements in Frameworks */ = {isa = PBXBuildFile; productRef = B35FCF6D287F009E0027FEC9 /* Elements */; };
 		B35FCF70287F0B050027FEC9 /* ScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF6F287F0B050027FEC9 /* ScrollViewController.swift */; };
+		B35FCF72287F14280027FEC9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF71287F14280027FEC9 /* Extensions.swift */; };
 		B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46252287EF66E00190AC3 /* AppDelegate.swift */; };
 		B3C46255287EF66E00190AC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46254287EF66E00190AC3 /* SceneDelegate.swift */; };
 		B3C46257287EF66E00190AC3 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46256287EF66E00190AC3 /* WelcomeViewController.swift */; };
@@ -27,6 +28,7 @@
 		B35FCF68287EFF0F0027FEC9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
 		B35FCF6F287F0B050027FEC9 /* ScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewController.swift; sourceTree = "<group>"; };
+		B35FCF71287F14280027FEC9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B3C4624F287EF66E00190AC3 /* ContactApp_TestPurpose_July13th.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactApp_TestPurpose_July13th.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C46252287EF66E00190AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3C46254287EF66E00190AC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			children = (
 				B3C46252287EF66E00190AC3 /* AppDelegate.swift */,
 				B3C46254287EF66E00190AC3 /* SceneDelegate.swift */,
+				B35FCF71287F14280027FEC9 /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3C46257287EF66E00190AC3 /* WelcomeViewController.swift in Sources */,
+				B35FCF72287F14280027FEC9 /* Extensions.swift in Sources */,
 				B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */,
 				B35FCF6B287EFF270027FEC9 /* AddContactViewController.swift in Sources */,
 				B35FCF70287F0B050027FEC9 /* ScrollViewController.swift in Sources */,

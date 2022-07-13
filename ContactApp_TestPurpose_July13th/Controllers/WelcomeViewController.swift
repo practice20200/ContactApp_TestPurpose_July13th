@@ -32,7 +32,7 @@ class WelcomeViewController: UIViewController{
         
     lazy var descriptionLabel: BaseUILabel = {
         let label = BaseUILabel()
-        label.text = "CONTACT"
+        label.text = "Contact"
         label.textColor = .systemBackground
         label.font = UIFont.preferredFont(forTextStyle: .title1)
         label.numberOfLines = 2
@@ -54,7 +54,7 @@ class WelcomeViewController: UIViewController{
         button.setTitle("Log in", for: .normal)
         button.backgroundColor = .systemMint
         button.layer.cornerRadius = 20
-        button.layer.shadowOpacity = 0.8
+        button.layer.shadowOpacity = 0.3
         button.heightAnchor.constraint(equalToConstant: 40).isActive = true
         button.addTarget(self, action: #selector(loginTagged), for: .touchUpInside)
         return button
@@ -66,7 +66,7 @@ class WelcomeViewController: UIViewController{
         button.setTitleColor(UIColor.systemMint, for: .normal)
         button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 20
-        button.layer.shadowOpacity = 0.8
+        button.layer.shadowOpacity = 0.3
         button.heightAnchor.constraint(equalToConstant: 40).isActive = true
         button.addTarget(self, action: #selector(signUpTagged), for: .touchUpInside)
         return button
@@ -77,7 +77,7 @@ class WelcomeViewController: UIViewController{
         stack.spacing = 20
         stack.addArrangedSubview(loginButton)
         stack.addArrangedSubview(signUpButton)
-        stack.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
         return stack
     }()
     
@@ -88,7 +88,7 @@ class WelcomeViewController: UIViewController{
         stack.spacing = 20
         stack.addArrangedSubview(labelsStack)
         stack.addArrangedSubview(buttonStack)
-        stack.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
         return stack
     }()
     
