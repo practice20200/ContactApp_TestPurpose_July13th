@@ -11,6 +11,8 @@
 		B35FCF67287EFE580027FEC9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF66287EFE580027FEC9 /* LogInViewController.swift */; };
 		B35FCF69287EFF0F0027FEC9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF68287EFF0F0027FEC9 /* HomeViewController.swift */; };
 		B35FCF6B287EFF270027FEC9 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */; };
+		B35FCF6E287F009E0027FEC9 /* Elements in Frameworks */ = {isa = PBXBuildFile; productRef = B35FCF6D287F009E0027FEC9 /* Elements */; };
+		B35FCF70287F0B050027FEC9 /* ScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF6F287F0B050027FEC9 /* ScrollViewController.swift */; };
 		B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46252287EF66E00190AC3 /* AppDelegate.swift */; };
 		B3C46255287EF66E00190AC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46254287EF66E00190AC3 /* SceneDelegate.swift */; };
 		B3C46257287EF66E00190AC3 /* WelcomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46256287EF66E00190AC3 /* WelcomViewController.swift */; };
@@ -24,6 +26,7 @@
 		B35FCF66287EFE580027FEC9 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		B35FCF68287EFF0F0027FEC9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
+		B35FCF6F287F0B050027FEC9 /* ScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewController.swift; sourceTree = "<group>"; };
 		B3C4624F287EF66E00190AC3 /* ContactApp_TestPurpose_July13th.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactApp_TestPurpose_July13th.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C46252287EF66E00190AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3C46254287EF66E00190AC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B35FCF6E287F009E0027FEC9 /* Elements in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +57,7 @@
 				B35FCF66287EFE580027FEC9 /* LogInViewController.swift */,
 				B35FCF68287EFF0F0027FEC9 /* HomeViewController.swift */,
 				B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */,
+				B35FCF6F287F0B050027FEC9 /* ScrollViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -135,6 +140,9 @@
 			dependencies = (
 			);
 			name = ContactApp_TestPurpose_July13th;
+			packageProductDependencies = (
+				B35FCF6D287F009E0027FEC9 /* Elements */,
+			);
 			productName = ContactApp_TestPurpose_July13th;
 			productReference = B3C4624F287EF66E00190AC3 /* ContactApp_TestPurpose_July13th.app */;
 			productType = "com.apple.product-type.application";
@@ -163,6 +171,9 @@
 				Base,
 			);
 			mainGroup = B3C46246287EF66E00190AC3;
+			packageReferences = (
+				B35FCF6C287F009E0027FEC9 /* XCRemoteSwiftPackageReference "ElementKit" */,
+			);
 			productRefGroup = B3C46250287EF66E00190AC3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -193,6 +204,7 @@
 				B3C46257287EF66E00190AC3 /* WelcomViewController.swift in Sources */,
 				B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */,
 				B35FCF6B287EFF270027FEC9 /* AddContactViewController.swift in Sources */,
+				B35FCF70287F0B050027FEC9 /* ScrollViewController.swift in Sources */,
 				B35FCF65287EFE3B0027FEC9 /* SignUpViewController.swift in Sources */,
 				B35FCF67287EFE580027FEC9 /* LogInViewController.swift in Sources */,
 				B3C46255287EF66E00190AC3 /* SceneDelegate.swift in Sources */,
@@ -412,6 +424,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B35FCF6C287F009E0027FEC9 /* XCRemoteSwiftPackageReference "ElementKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/practice20200/ElementKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B35FCF6D287F009E0027FEC9 /* Elements */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B35FCF6C287F009E0027FEC9 /* XCRemoteSwiftPackageReference "ElementKit" */;
+			productName = Elements;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B3C46247287EF66E00190AC3 /* Project object */;
 }
