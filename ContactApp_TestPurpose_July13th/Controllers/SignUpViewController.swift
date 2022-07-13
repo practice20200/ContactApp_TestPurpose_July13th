@@ -14,13 +14,13 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     //========== Elements ==========
     lazy var logo: BaseUIImageView = {
         let iv = BaseUIImageView()
-        iv.image = UIImage(systemName:"person.circle.fill")
+        iv.image = UIImage(systemName: "person.circle")
         iv.heightAnchor.constraint(equalToConstant: 150).isActive = true
         iv.widthAnchor.constraint(equalToConstant: 150).isActive = true
         iv.layer.cornerRadius = 75
         iv.clipsToBounds = true
         let configuration = UIImage.SymbolConfiguration(paletteColors:
-                                                            [.systemBackground, .systemGray3 ])
+         [.white])
         iv.preferredSymbolConfiguration = configuration
         return iv
     }()
@@ -143,7 +143,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Sign Up"
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .systemBackground
         view.layer.addSublayer(gradientLayer)
 
         logo.isUserInteractionEnabled = true
@@ -250,7 +250,7 @@ extension SignUpViewController: UIImagePickerControllerDelegate {
         picker.dismiss(animated: true, completion: nil)
         print(info)
         guard let selectImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        self.logo.image = selectImage
+       logo.image = selectImage
     }
 
     func uploadProfilePicture(with data : Data, fileName: String, completion: (Result< String, Error >)  -> Void) {
