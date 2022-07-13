@@ -183,6 +183,9 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
            passTF.setUnderLine()
        }
 
+    
+    
+    
     @objc func didTappedImage() {
             print("Change picture request")
             presentPhotoActionSheet()
@@ -201,6 +204,13 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         
         let vc = TabBarViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+   func safeEmail(email: String) -> String{
+    
+        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        return safeEmail
     }
     
 }

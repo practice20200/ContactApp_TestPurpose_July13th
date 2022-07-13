@@ -132,6 +132,12 @@ class LogInViewController: UIViewController{
         let vc = TabBarViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func safeEmail(email: String) -> String{
+         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+         return safeEmail
+     }
 }
     
     

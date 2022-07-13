@@ -18,3 +18,10 @@ extension UITextField {
         bringSubviewToFront(underline)
     }
 }
+
+
+extension String {
+    var isAlphanumeric: Bool {
+        return !isEmpty && range(of: "[0-9]", options: .regularExpression) == nil
+    }
+}
