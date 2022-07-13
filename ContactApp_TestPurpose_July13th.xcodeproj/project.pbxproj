@@ -37,6 +37,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B35FCF5F287EFB150027FEC9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B3C46256287EF66E00190AC3 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B35FCF60287EFB1D0027FEC9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B3C46252287EF66E00190AC3 /* AppDelegate.swift */,
+				B3C46254287EF66E00190AC3 /* SceneDelegate.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		B35FCF61287EFB2F0027FEC9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B35FCF62287EFB690027FEC9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B35FCF63287EFBD60027FEC9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B3C46258287EF66E00190AC3 /* Main.storyboard */,
+				B3C4625D287EF67100190AC3 /* LaunchScreen.storyboard */,
+				B3C4625B287EF67100190AC3 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		B3C46246287EF66E00190AC3 = {
 			isa = PBXGroup;
 			children = (
@@ -56,12 +97,11 @@
 		B3C46251287EF66E00190AC3 /* ContactApp_TestPurpose_July13th */ = {
 			isa = PBXGroup;
 			children = (
-				B3C46252287EF66E00190AC3 /* AppDelegate.swift */,
-				B3C46254287EF66E00190AC3 /* SceneDelegate.swift */,
-				B3C46256287EF66E00190AC3 /* ViewController.swift */,
-				B3C46258287EF66E00190AC3 /* Main.storyboard */,
-				B3C4625B287EF67100190AC3 /* Assets.xcassets */,
-				B3C4625D287EF67100190AC3 /* LaunchScreen.storyboard */,
+				B35FCF63287EFBD60027FEC9 /* Resources */,
+				B35FCF62287EFB690027FEC9 /* Views */,
+				B35FCF61287EFB2F0027FEC9 /* Models */,
+				B35FCF60287EFB1D0027FEC9 /* Utils */,
+				B35FCF5F287EFB150027FEC9 /* Controllers */,
 				B3C46260287EF67100190AC3 /* Info.plist */,
 			);
 			path = ContactApp_TestPurpose_July13th;
