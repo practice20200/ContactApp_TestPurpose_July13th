@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B35FCF65287EFE3B0027FEC9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF64287EFE3B0027FEC9 /* SignUpViewController.swift */; };
+		B35FCF67287EFE580027FEC9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF66287EFE580027FEC9 /* LogInViewController.swift */; };
+		B35FCF69287EFF0F0027FEC9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF68287EFF0F0027FEC9 /* HomeViewController.swift */; };
+		B35FCF6B287EFF270027FEC9 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */; };
 		B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46252287EF66E00190AC3 /* AppDelegate.swift */; };
 		B3C46255287EF66E00190AC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46254287EF66E00190AC3 /* SceneDelegate.swift */; };
 		B3C46257287EF66E00190AC3 /* WelcomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C46256287EF66E00190AC3 /* WelcomViewController.swift */; };
@@ -16,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B35FCF64287EFE3B0027FEC9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		B35FCF66287EFE580027FEC9 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		B35FCF68287EFF0F0027FEC9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
 		B3C4624F287EF66E00190AC3 /* ContactApp_TestPurpose_July13th.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactApp_TestPurpose_July13th.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C46252287EF66E00190AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3C46254287EF66E00190AC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +49,10 @@
 			isa = PBXGroup;
 			children = (
 				B3C46256287EF66E00190AC3 /* WelcomViewController.swift */,
+				B35FCF64287EFE3B0027FEC9 /* SignUpViewController.swift */,
+				B35FCF66287EFE580027FEC9 /* LogInViewController.swift */,
+				B35FCF68287EFF0F0027FEC9 /* HomeViewController.swift */,
+				B35FCF6A287EFF270027FEC9 /* AddContactViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -180,7 +192,11 @@
 			files = (
 				B3C46257287EF66E00190AC3 /* WelcomViewController.swift in Sources */,
 				B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */,
+				B35FCF6B287EFF270027FEC9 /* AddContactViewController.swift in Sources */,
+				B35FCF65287EFE3B0027FEC9 /* SignUpViewController.swift in Sources */,
+				B35FCF67287EFE580027FEC9 /* LogInViewController.swift in Sources */,
 				B3C46255287EF66E00190AC3 /* SceneDelegate.swift in Sources */,
+				B35FCF69287EFF0F0027FEC9 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
