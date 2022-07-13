@@ -62,8 +62,8 @@ class HomeViewController: UIViewController {
 
         ])
         
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addHandler))
-//        navigationItem.rightBarButtonItem = addButton
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addHandler))
+        navigationItem.rightBarButtonItem = addButton
         
     }
 
@@ -75,6 +75,7 @@ class HomeViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableView.frame = view.bounds
+        navigationController?.navigationBar.topItem?.titleView = UIView()
     }
 
     

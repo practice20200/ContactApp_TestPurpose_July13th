@@ -84,6 +84,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.autocapitalizationType = .none
         tf.returnKeyType = .done
+        tf.keyboardType = .numberPad
         return tf
     }()
     
@@ -174,6 +175,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gradientLayer.frame = view.bounds
+        navigationController?.navigationBar.topItem?.titleView = UIView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
