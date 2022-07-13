@@ -62,8 +62,8 @@ class HomeViewController: UIViewController {
 
         ])
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addHandler))
-        navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addHandler))
+//        navigationItem.rightBarButtonItem = addButton
         
     }
 

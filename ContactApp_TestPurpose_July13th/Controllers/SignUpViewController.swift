@@ -199,7 +199,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
 //                      return
 //        }
         
-        let vc = HomeViewController()
+        let vc = TabBarViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
