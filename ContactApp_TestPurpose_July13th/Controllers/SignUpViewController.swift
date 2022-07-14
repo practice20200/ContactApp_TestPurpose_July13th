@@ -14,7 +14,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     private let database = Database.database().reference()
     private var handle: AuthStateDidChangeListenerHandle?
     
-    let auth = Auth.auth()
+    private let auth = Auth.auth()
 
     
     //========== Elements ==========
@@ -226,7 +226,6 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
         })
-        print("viewDidload appear")
     }
     
     func emailValidationAlert(){
@@ -243,7 +242,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         
         guard let firstName = firstNameTF.text, !firstName.isEmpty,
               let lastName = LastNameTF.text, !lastName.isEmpty,
-                let email = emailTF.text , !email.isEmpty,
+              let email = emailTF.text , !email.isEmpty,
               let password = passTF.text, !password.isEmpty, password.count >= 8 else { return }
         print("===========User input information correctly")
 
@@ -269,6 +268,8 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
                 //store information in local device
                 UserDefaults.standard.setValue(username, forKey:"name")
                 UserDefaults.standard.setValue(email, forKey:"email")
+                
+                self?.validateEmailAlert()
             }
        }
     }
@@ -282,6 +283,15 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     func emailInvalidAlert(error: Error){
         let alertView = UIAlertController(title: "Error", message: String(error.localizedDescription), preferredStyle: .alert)
             let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertView.addAction(OKAction)
+        present(alertView, animated: true)
+    }
+    
+    func validateEmailAlert(){
+        let alertView = UIAlertController(title: "One more step", message: "Please check your email box and click the URL attached in order to validate your email address. ", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
+        })
         alertView.addAction(OKAction)
         present(alertView, animated: true)
     }

@@ -7,8 +7,14 @@
 
 import UIKit
 import Elements
+import Firebase
 
 class LogInViewController: UIViewController{
+
+    //========== Elements ==========
+    private let database = Database.database().reference()
+    private var handle: AuthStateDidChangeListenerHandle?
+    private let auth = Auth.auth()
     
     lazy var titleLabel: BaseUILabel = {
         let label = BaseUILabel()
@@ -91,14 +97,7 @@ class LogInViewController: UIViewController{
     
     
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        emailTF.setUnderLine()
-        passTF.setUnderLine()
-    }
-    
-    
-    
+    //========== Views ==========
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Log in"
@@ -124,13 +123,83 @@ class LogInViewController: UIViewController{
         gradientLayer.frame = view.bounds
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        emailTF.setUnderLine()
+        passTF.setUnderLine()
+        
+        //Check if user is registered with validationof their email
+        isEmailValidated()
+    }
     
     
     
+    
+    
+    
+    //========== Functions ==========
+    func isEmailValidated(){
+        if auth.currentUser != nil {
+            
+            auth.currentUser?.reload(completion: {[weak self] error in
+                if error == nil {
+                    if self?.auth.currentUser?.isEmailVerified == true {
+                       self?.isAuthentificated()
+                    } else if self?.auth.currentUser?.isEmailVerified == false {
+                        self?.emailValidationAlert()
+                    }
+                }
+            })
+            
+        }
+    }
+    
+    func isAuthentificated(){
+        handle = Auth.auth().addStateDidChangeListener({ [weak self] success, user in
+            if user != nil {
+                let vc = TabBarViewController()
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        })
+    }
+    
+    func emailValidationAlert(){
+        let alert = UIAlertController(title: "Validate your email address", message: "Please check inbox to validate the URL link attached.", preferredStyle: .alert)
+        let resignUpAction = UIAlertAction(title: "Re-sign up", style: .default, handler: nil)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)})
+        alert.addAction(OKAction)
+        alert.addAction(resignUpAction)
+        present(alert, animated: true, completion: nil)
+    }
     
     @objc func loginHandler(){
-        let vc = TabBarViewController()
-        navigationController?.pushViewController(vc, animated: true)
+
+        
+       guard let email = emailTF.text , !email.isEmpty,
+             let password = passTF.text, !password.isEmpty, password.count >= 8 else { return }
+
+        Auth.auth().signIn(withEmail: email, password: password) {[weak self] result, error in
+
+            guard let strongSelf = self else { return }
+        
+            guard let result = result, error == nil else {
+                let alert = UIAlertController(title: "Log in failed", message: error?.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    strongSelf.present(alert, animated: true, completion: nil)
+                print("Login Failed")
+                return
+            }
+            
+            UserDefaults.standard.set(result.user.displayName, forKey: "name")
+            UserDefaults.standard.set(password, forKey: "password")
+            UserDefaults.standard.set(email, forKey: "email")
+            print("logged in successfully with this user: \(String(describing: result.user.displayName))")
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+            
+            let vc = TabBarViewController()
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func safeEmail(email: String) -> String{

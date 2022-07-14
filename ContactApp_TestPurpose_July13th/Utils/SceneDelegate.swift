@@ -11,25 +11,31 @@ import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let auth = Auth.auth()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        
-        if Auth.auth().currentUser != nil {
-            let vc = TabBarViewController()
-            let navigation = UINavigationController(rootViewController: vc)
-            window.rootViewController = navigation
-            print("Auth.auth().currentUser is not nil")
-        } else {
-            let vc = WelcomeViewController()
-            let navigation = UINavigationController(rootViewController: vc)
-            window.rootViewController = navigation
-            print("Auth.auth().currentUser is  nil")
+      
+        if auth.currentUser != nil {
+            auth.currentUser?.reload(completion: {[weak self] error in
+                if error == nil {
+                    if self?.auth.currentUser?.isEmailVerified == true {
+                        let vc = TabBarViewController()
+                        let navigation = UINavigationController(rootViewController: vc)
+                        window.rootViewController = navigation
+                        print("Auth.auth().currentUser is not nil")
+                    } else if self?.auth.currentUser?.isEmailVerified == false {
+                        let vc = WelcomeViewController()
+                        let navigation = UINavigationController(rootViewController: vc)
+                        window.rootViewController = navigation
+                        print("Auth.auth().currentUser is  nil")
+                    }
+                }
+            })
         }
-
+        
         self.window = window
         window.makeKeyAndVisible()
         guard let _ = (scene as? UIWindowScene) else { return }
