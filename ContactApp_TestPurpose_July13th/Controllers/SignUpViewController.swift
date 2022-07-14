@@ -7,8 +7,14 @@
 
 import UIKit
 import Elements
+import Firebase
 
 class SignUpViewController: UIViewController, UINavigationControllerDelegate {
+    
+    private let database = Database.database().reference()
+    private var handle: AuthStateDidChangeListenerHandle?
+    
+    let auth = Auth.auth()
 
     
     //========== Elements ==========
@@ -176,12 +182,15 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-           super.viewDidAppear(animated)
-           firstNameTF.setUnderLine()
-           LastNameTF.setUnderLine()
-           emailTF.setUnderLine()
-           passTF.setUnderLine()
-       }
+       super.viewDidAppear(animated)
+       firstNameTF.setUnderLine()
+       LastNameTF.setUnderLine()
+       emailTF.setUnderLine()
+       passTF.setUnderLine()
+    
+       //Check if user is registered with validationof their email
+       isEmailValidated()
+    }
 
     
     
@@ -194,23 +203,87 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     
     
     //===================== Functions =========================
+    func isEmailValidated(){
+        if auth.currentUser != nil {
+            
+            auth.currentUser?.reload(completion: {[weak self] error in
+                if error == nil {
+                    if self?.auth.currentUser?.isEmailVerified == true {
+                       self?.isAuthentificated()
+                    } else if self?.auth.currentUser?.isEmailVerified == false {
+                        self?.emailValidationAlert()
+                    }
+                }
+            })
+            
+        }
+    }
+    
+    func isAuthentificated(){
+        handle = Auth.auth().addStateDidChangeListener({ [weak self] success, user in
+            if user != nil {
+                let vc = TabBarViewController()
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        })
+        print("viewDidload appear")
+    }
+    
+    func emailValidationAlert(){
+        let alert = UIAlertController(title: "Validate your email address", message: "Please check inbox to validate the URL link attached.", preferredStyle: .alert)
+        let resignUpAction = UIAlertAction(title: "Re-sign up", style: .default, handler: nil)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)})
+        alert.addAction(OKAction)
+        alert.addAction(resignUpAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     @objc func signUpHandler() {
         
-//        guard let username = usernameTF.text, !username.isEmpty,
-//                let email = emailTF.text , !email.isEmpty,
-//                  let password = passTF.text, !password.isEmpty, password.count >= 8 else {
-//                      return
-//        }
-        
-        let vc = TabBarViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        guard let firstName = firstNameTF.text, !firstName.isEmpty,
+              let lastName = LastNameTF.text, !lastName.isEmpty,
+                let email = emailTF.text , !email.isEmpty,
+              let password = passTF.text, !password.isEmpty, password.count >= 8 else { return }
+        print("===========User input information correctly")
+
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+            guard let result = result, error == nil else{
+                print("Auth Error; \(String(describing: error?.localizedDescription))")
+                return
+            }
+            print("==========create user: email and password are valid")
+            
+            //send authentification Email to users
+            result.user.sendEmailVerification {[weak self] error in
+                guard error == nil else {
+                    self?.emailInvalidAlert(error: error!)
+                    return
+                }
+                
+                //Received user information
+                let req = result.user.createProfileChangeRequest()
+                let username = firstName + " " + lastName
+                req.displayName = username
+                
+                //store information in local device
+                UserDefaults.standard.setValue(username, forKey:"name")
+                UserDefaults.standard.setValue(email, forKey:"email")
+            }
+       }
     }
     
    func safeEmail(email: String) -> String{
-    
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         return safeEmail
+    }
+    
+    func emailInvalidAlert(error: Error){
+        let alertView = UIAlertController(title: "Error", message: String(error.localizedDescription), preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertView.addAction(OKAction)
+        present(alertView, animated: true)
     }
     
 }
