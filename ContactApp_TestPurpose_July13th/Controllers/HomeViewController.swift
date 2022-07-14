@@ -94,7 +94,8 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        let vc = DetailedIndivisdualViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
