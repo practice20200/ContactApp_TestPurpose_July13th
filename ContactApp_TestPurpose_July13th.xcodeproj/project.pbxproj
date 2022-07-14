@@ -33,6 +33,7 @@
 		B3DA19EE287F7382000C86E6 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = B3DA19ED287F7382000C86E6 /* FirebaseDatabase */; };
 		B3DA19F0287F7382000C86E6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B3DA19EF287F7382000C86E6 /* FirebaseStorage */; };
 		B3DA19F2287F7640000C86E6 /* DetailedIndivisdualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DA19F1287F7640000C86E6 /* DetailedIndivisdualViewController.swift */; };
+		B3DA19F428801C81000C86E6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DA19F328801C81000C86E6 /* StorageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		B3C46260287EF67100190AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3DA19E6287F70DE000C86E6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B3DA19F1287F7640000C86E6 /* DetailedIndivisdualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedIndivisdualViewController.swift; sourceTree = "<group>"; };
+		B3DA19F328801C81000C86E6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				B3C46252287EF66E00190AC3 /* AppDelegate.swift */,
 				B3C46254287EF66E00190AC3 /* SceneDelegate.swift */,
 				B35FCF71287F14280027FEC9 /* Extensions.swift */,
+				B3DA19F328801C81000C86E6 /* StorageManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				B3C46257287EF66E00190AC3 /* WelcomeViewController.swift in Sources */,
 				B35FCF72287F14280027FEC9 /* Extensions.swift in Sources */,
 				B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */,
+				B3DA19F428801C81000C86E6 /* StorageManager.swift in Sources */,
 				B35FCF74287F27DE0027FEC9 /* HomeViewTableViewCell.swift in Sources */,
 				B35FCF78287F348D0027FEC9 /* TabBarViewController.swift in Sources */,
 				B35FCF6B287EFF270027FEC9 /* AddContactViewController.swift in Sources */,

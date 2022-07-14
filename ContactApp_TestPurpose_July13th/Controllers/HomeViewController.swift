@@ -7,11 +7,15 @@
 
 import UIKit
 import Elements
+import Firebase
 
 class HomeViewController: UIViewController {
     
     //========== Elements ==========
-    var contactData = [Contact]()
+    private var contactData = [Contact]()
+    
+    private var reObserver : [DatabaseHandle] = []
+    private let refContact = Database.database()
 
     lazy var contactLabel : BaseUILabel = {
         let label = BaseUILabel()
@@ -47,12 +51,8 @@ class HomeViewController: UIViewController {
         view.addSubview(contentStack)
         view.largeContentTitle = "Contact"
         
-        let testPerson = Contact(firstName: "FirstName", lastName: "LastName", emailAddress: "test@example.com", number: 1112224444)
-        contactData.append(testPerson)
-        
         tableView.delegate = self
         tableView.dataSource = self
-
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        parseJSON()
+        ContactDataReader()
     }
     
     override func viewWillLayoutSubviews() {
@@ -83,8 +83,34 @@ class HomeViewController: UIViewController {
     
     
     //========== Functions ==========
+    func ContactDataReader(){
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        let completed = refContact.reference(withPath: "\(userUID)/Contact").observe(.value) { [weak self] snapshot in
+            print("ContactDataReader: 1st Step + \(userUID)")
+            var newItem: [Contact] = []
+            for child in snapshot.children{
+                if let snapshot = child as? DataSnapshot,
+                   let contactItem = Contact(snapshot: snapshot) {
+                       newItem.append(contactItem)
+                    print("ContactDataReader: 4th Step")
+                }
+                print("dddddd")
+            }
+            print("ContactDataReader: 2nd Step")
+            self?.contactData = newItem
+            self?.tableView.reloadData()
+        }
+        print("ContactDataReader: 3rd Step")
+        reObserver.append(completed)
+    }
+    
     @objc func addHandler(){
         let vc = AddContactViewController()
+        vc.completion = { [weak self] firstName, lastName, emailAddress, number in
+            self?.contactData.append(Contact(firstName: firstName, lastName: lastName, emailAddress: emailAddress, number: number))
+            self?.tableView.reloadData()
+            print("dataADDDD: \(String(describing: self?.contactData))")
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -96,6 +122,13 @@ extension HomeViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailedIndivisdualViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let friend = contactData[indexPath.item]
+            friend.ref?.removeValue()
+        }
     }
 }
 
@@ -109,6 +142,7 @@ extension HomeViewController : UITableViewDataSource {
        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HomeViewTableViewCell
         let item = contactData[indexPath.row]
         cell.nameLabel.text = "\(item.firstName)" + " " + "\(item.lastName)"
+        cell.numberLabel.text = "\(item.number)"
        return cell
     }
     

@@ -7,8 +7,13 @@
 
 import UIKit
 import Elements
+import Firebase
 
 class AddContactViewController: UIViewController, UINavigationControllerDelegate {
+
+    public var completion: ((String, String, String, Int) -> Void)?
+    private let refContact = Database.database()
+
 
     
     //========== Elements ==========
@@ -84,7 +89,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.autocapitalizationType = .none
         tf.returnKeyType = .done
-        tf.keyboardType = .numberPad
+        tf.keyboardType = .numbersAndPunctuation
         return tf
     }()
     
@@ -186,20 +191,54 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
            phoneNumberTF.setUnderLine()
        }
 
-    @objc func didTappedImage() {
-            print("Change picture request")
-            presentPhotoActionSheet()
-    }
     
     
     
     //===================== Functions =========================
-    @objc func addHandler(){
+    func isphoneNumberValid(){
+        let alertView = UIAlertController(title: "Invalid", message: "Please type only numbers in phone number.", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertView.addAction(OKAction)
+        present(alertView, animated: true)
         
-        let vc = TabBarViewController()
-        navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func addHandler(){
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            return }
+
+        if  let firstName = firstNameTF.text, !firstName.isEmpty,
+            let lastName = LastNameTF.text, !lastName.isEmpty,
+            let emailAddress = emailTF.text, !emailAddress.isEmpty,
+            let number = phoneNumberTF.text, !number.isEmpty{
+
+                guard let intNumber = Int(number) else {
+                    isphoneNumberValid()
+                    return }
+                let fireBaseChildName = firstName + lastName + number
+
+                //Send the created data to firebase
+                let contact = Contact(firstName: firstName, lastName: lastName, emailAddress: emailAddress, number: intNumber)
+                let ref = refContact.reference(withPath: "\(userUID)/Contact").child("\(fireBaseChildName)")
+                ref.setValue(contact.toAnyObject())
+                completion?(firstName,lastName,emailAddress,intNumber)
+                
+                //Storage
+                guard let image = profileImageIV.image, let data = image.pngData() else { return }
+                let fileName = "\(intNumber)_\(firstName)_profile_picture_url"
+                StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName)
+            
+            navigationController?.popViewController(animated: true)
+                
+            }
+    }
+    
+    
+    @objc func didTappedImage() {
+        print("Change picture request")
+        presentPhotoActionSheet()
+    }
+
 }
 
 
