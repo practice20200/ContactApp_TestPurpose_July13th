@@ -30,10 +30,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         let vc = WelcomeViewController()
                         let navigation = UINavigationController(rootViewController: vc)
                         window.rootViewController = navigation
-                        print("Auth.auth().currentUser is  nil")
+                        print("Auth.auth().currentUser is not nil, but Email valification has not beed done")
                     }
                 }
             })
+        }else {
+            let vc = WelcomeViewController()
+            let navigation = UINavigationController(rootViewController: vc)
+            window.rootViewController = navigation
+            print("Auth.auth().currentUser is nil")
         }
         
         self.window = window

@@ -11,7 +11,7 @@ import Firebase
 
 class AddContactViewController: UIViewController, UINavigationControllerDelegate {
 
-    public var completion: ((String, String, String, Int) -> Void)?
+    public var completion: ((String, String, String, Int, String) -> Void)?
     private let refContact = Database.database()
 
 
@@ -166,7 +166,6 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTappedImage))
         gesture.numberOfTapsRequired = 1
-        gesture.numberOfTapsRequired = 1
         profileImageIV.addGestureRecognizer(gesture)
         scrollView.showsVerticalScrollIndicator = false
         
@@ -203,6 +202,23 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         
     }
     
+    func successAlert(){
+        let alertView = UIAlertController(title: "Success", message: "A new contact was successfully added.", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in
+            self?.makeDefaultTextField()
+        }
+        alertView.addAction(OKAction)
+        present(alertView, animated: true)
+    }
+    
+    func makeDefaultTextField(){
+        firstNameTF.text = ""
+        LastNameTF.text = ""
+        emailTF.text = ""
+        phoneNumberTF.text = ""
+        profileImageIV.image = UIImage(systemName: "person.circle")
+    }
+    
     @objc func addHandler(){
         guard let userUID = Auth.auth().currentUser?.uid else {
             return }
@@ -214,21 +230,23 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
 
                 guard let intNumber = Int(number) else {
                     isphoneNumberValid()
-                    return }
-                let fireBaseChildName = firstName + lastName + number
+                    return
+                }
 
                 //Send the created data to firebase
-                let contact = Contact(firstName: firstName, lastName: lastName, emailAddress: emailAddress, number: intNumber)
-                let ref = refContact.reference(withPath: "\(userUID)/Contact").child("\(fireBaseChildName)")
+                let uuid = UUID().uuidString
+                let contact = Contact(firstName: firstName, lastName: lastName, emailAddress: emailAddress, number: intNumber, id: uuid)
+                let ref = refContact.reference(withPath: "\(userUID)/Contact").child("\(uuid)")
                 ref.setValue(contact.toAnyObject())
-                completion?(firstName,lastName,emailAddress,intNumber)
+                completion?(firstName,lastName,emailAddress,intNumber,uuid)
                 
                 //Storage
                 guard let image = profileImageIV.image, let data = image.pngData() else { return }
-                let fileName = "\(intNumber)_\(firstName)_profile_picture_url"
+                let fileName = "\(userUID)/\(uuid)_profile_picture_url"
+                print("file Name: \(fileName)")
                 StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName)
-            
-            navigationController?.popViewController(animated: true)
+                successAlert()
+                
                 
             }
     }
@@ -287,10 +305,6 @@ extension AddContactViewController: UIImagePickerControllerDelegate {
         print(info)
         guard let selectImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         profileImageIV.image = selectImage
-    }
-
-    func uploadProfilePicture(with data : Data, fileName: String, completion: (Result< String, Error >)  -> Void) {
-
     }
 
     // users cancel

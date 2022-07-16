@@ -17,14 +17,16 @@ struct Contact{
     var lastName: String
     var emailAddress: String
     var number: Int
+    var id: String
     
-    init(key: String = "", firstName: String, lastName: String, emailAddress: String, number: Int){
+    init(key: String = "", firstName: String, lastName: String, emailAddress: String, number: Int, id: String){
         self.ref = nil
         self.key = key
         self.firstName = firstName
         self.lastName = lastName
         self.emailAddress = emailAddress
         self.number = number
+        self.id = id
     }
     
     init?(snapshot: DataSnapshot){
@@ -33,7 +35,8 @@ struct Contact{
             let firstName = value["firstName"] as? String,
             let lastName = value["lastName"] as? String,
             let emailAddress = value["emailAddress"] as? String,
-            let number = value["number"] as? Int
+            let number = value["number"] as? Int,
+            let id = value["id"] as? String
         else {
             return nil
         }
@@ -44,6 +47,7 @@ struct Contact{
         self.lastName = lastName
         self.emailAddress = emailAddress
         self.number = number
+        self.id =  id
     }
     
     
@@ -52,7 +56,8 @@ struct Contact{
             "firstName" : firstName,
             "lastName" : lastName,
             "emailAddress" : emailAddress,
-            "number" : number
+            "number" : number,
+            "id" : id
         ]
     }
     
