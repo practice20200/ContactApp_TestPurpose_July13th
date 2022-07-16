@@ -7,6 +7,8 @@
 
 import UIKit
 import Elements
+import Firebase
+import FirebaseStorage
 
 class HomeViewTableViewCell: UITableViewCell {
     
@@ -15,7 +17,7 @@ class HomeViewTableViewCell: UITableViewCell {
         iv.image = UIImage(systemName: "person.crop.circle")
         iv.heightAnchor.constraint(equalToConstant: 50).isActive = true
         iv.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        iv.layer.cornerRadius = 15
+        iv.layer.cornerRadius = 25
         iv.clipsToBounds = true
         return iv
     }()
@@ -80,4 +82,22 @@ class HomeViewTableViewCell: UITableViewCell {
         fatalError("init(coder: ) has not beeb implemented")
     }
 
+    func configure(with item: Contact) {
+        nameLabel.text = item.firstName + " " + item.lastName
+        numberLabel.text = String(item.number)
+        displayProfileImage(item: item)
+    }
+        
+    func displayProfileImage(item: Contact){
+        guard let user = Auth.auth().currentUser else { return }
+        let filePath = "\(user.uid)/\(item.id)_profile_picture_url"
+        
+        //download a new picture
+        Storage.storage().reference().child("images/\(filePath)").downloadURL { url, error in
+           guard let url = url, error == nil else{ return }
+           DispatchQueue.main.async { [weak self] in
+               self?.firstProfileImage.sd_setImage(with: url)
+           }
+       }
+    }
 }

@@ -78,7 +78,9 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.topItem?.titleView = UIView()
     }
 
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
     
     
     
@@ -138,8 +140,7 @@ extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath : IndexPath) -> UITableViewCell {
        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HomeViewTableViewCell
         let item = contactData[indexPath.row]
-        cell.nameLabel.text = "\(item.firstName)" + " " + "\(item.lastName)"
-        cell.numberLabel.text = "\(item.number)"
+        cell.configure(with: item)
        return cell
     }
     

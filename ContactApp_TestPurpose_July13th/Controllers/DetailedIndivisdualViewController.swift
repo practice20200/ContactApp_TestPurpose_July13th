@@ -308,7 +308,7 @@ extension DetailedIndivisdualViewController: UIImagePickerControllerDelegate {
             
             //Upload a new profile picture
             guard let user = Auth.auth().currentUser else { return }
-            let filePath = "\(user.uid)/\(data[3])_\(data[0])_profile_picture_url"
+            let filePath = "\(user.uid)/\(data[4])_profile_picture_url"
             confirmModification(filePath: filePath)
     }
     
