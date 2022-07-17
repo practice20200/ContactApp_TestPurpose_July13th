@@ -9,32 +9,13 @@ import UIKit
 import Elements
 
 class SearchViewController: UIViewController{
-    var completion: ((String, String) -> Void)?
-    var users = [[String: String]]()
-    var hasFetched = false
-    var results = [SearchResult]()
-    var pickedUpResult = [Contact]()
+    
+    public var filterData = [Contact]()
 
     // ============ Elements ============
-    lazy var searchBar : UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search for contacts"
-        return searchBar
-    }()
-    
-    lazy var instructionLabel : BaseUILabel = {
-        let label = BaseUILabel()
-        label.text = "Enter an email adress"
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.textColor = UIColor.systemGray
-        label.textAlignment = .center
-        return label
-    }()
-
     lazy var tableView : UITableView = {
         let table = UITableView()
-        table.isHidden = true
-        table.register(SearchViewControllerCell.self, forCellReuseIdentifier: "cell")
+        table.register(HomeViewTableViewCell.self, forCellReuseIdentifier: "cell")
         table.backgroundColor = UIColor.systemGray6
         table.layer.shadowColor = UIColor.lightGray.cgColor
         table.layer.opacity = 0.8
@@ -58,32 +39,22 @@ class SearchViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubview(searchBar)
         view.addSubview(notFoundResultLabel)
         view.addSubview(tableView)
-        view.addSubview(instructionLabel)
-        searchBar.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            instructionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
-            instructionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
             notFoundResultLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             notFoundResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-
-        searchBar.becomeFirstResponder()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+        updateUI()
     }
 
 
@@ -91,7 +62,6 @@ class SearchViewController: UIViewController{
         super.viewWillLayoutSubviews()
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelSearcHandler))
         navigationItem.rightBarButtonItem = cancelButton
-        navigationController?.navigationBar.topItem?.titleView = searchBar
     }
 
     
@@ -100,6 +70,17 @@ class SearchViewController: UIViewController{
     
 
     // ============ Functions ============
+    func updateUI(){
+        if filterData.isEmpty{
+            tableView.isHidden = true
+            notFoundResultLabel.isHidden = false
+        }
+        else {
+            tableView.isHidden = false
+            notFoundResultLabel.isHidden = true
+        }
+    }
+    
     @objc func cancelSearcHandler(){
         dismiss(animated: true, completion: nil)
     }
@@ -109,62 +90,36 @@ class SearchViewController: UIViewController{
 
 extension SearchViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let alertView = UIAlertController(title: "Matched", message: "Would you like to search this person?", preferredStyle: .alert)
+        let vc = DetailedIndivisdualViewController()
+        let passedData = filterData[indexPath.row]
+        let convertedData = [passedData.firstName, passedData.lastName, passedData.emailAddress, String(passedData.number),passedData.id]
+        vc.data = convertedData
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
-        let cancelAction = UIAlertAction(title: "cancel", style: .default, handler: nil)
-        let addAction = UIAlertAction(title: "add", style: .default) { _ in
-            print("Add a new contact")
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let friend = filterData[indexPath.item]
+            friend.ref?.removeValue()
+            navigationController?.dismiss(animated: true)
         }
-    
-        alertView.addAction(cancelAction)
-        alertView.addAction(addAction)
-        self.navigationController?.present(alertView, animated: true, completion: nil)
     }
 }
 
 extension SearchViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return results.count
+            return filterData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchViewControllerCell
-//        let item = results[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HomeViewTableViewCell
+        let filterItemData = filterData[indexPath.row]
+        cell.configure(with: filterItemData)
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
-    }
-}
-
-
-
-
-extension SearchViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else{ return }
-        results.removeAll()
-        
-        searchBar.resignFirstResponder()
-        
-        updateUI()
-        print("you found your friend successfully")
-        
-    }
-
-    func updateUI(){
-        if  results.isEmpty{
-            instructionLabel.isHidden = true
-            notFoundResultLabel.isHidden = false
-            tableView.isHidden = true
-        }else{
-            instructionLabel.isHidden = true
-            notFoundResultLabel.isHidden = true
-            tableView.isHidden = false
-            tableView.reloadData()
-        }
     }
 }
 

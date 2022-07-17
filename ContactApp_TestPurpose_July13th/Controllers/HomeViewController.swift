@@ -13,9 +13,18 @@ class HomeViewController: UIViewController {
     
     //========== Elements ==========
     private var contactData = [Contact]()
+    private var filterData = [Contact]()
     
     private var reObserver : [DatabaseHandle] = []
     private let refContact = Database.database()
+    
+    
+    lazy var searchBar : UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Enter initials"
+        searchBar.autocapitalizationType = .none
+        return searchBar
+    }()
 
     lazy var contactLabel : BaseUILabel = {
         let label = BaseUILabel()
@@ -55,16 +64,15 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addHandler))
-        navigationItem.rightBarButtonItem = addButton
-        
+        view.addSubview(searchBar)
+        searchBar.becomeFirstResponder()
+        searchBar.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -75,12 +83,10 @@ class HomeViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableView.frame = view.bounds
-        navigationController?.navigationBar.topItem?.titleView = UIView()
+        navigationController?.navigationBar.topItem?.titleView = searchBar
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
+    
     
     
     
@@ -100,17 +106,7 @@ class HomeViewController: UIViewController {
         }
         reObserver.append(completed)
     }
-    
-    @objc func addHandler(){
-        let vc = AddContactViewController()
-        vc.completion = { [weak self] firstName, lastName, emailAddress, number, id in
-            self?.contactData.append(Contact(firstName: firstName, lastName: lastName, emailAddress: emailAddress, number: number, id: id))
-            self?.tableView.reloadData()
-        }
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
+
     
 }
 
@@ -134,13 +130,13 @@ extension HomeViewController : UITableViewDelegate{
 
 extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        contactData.count
+        return contactData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath : IndexPath) -> UITableViewCell {
        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HomeViewTableViewCell
-        let item = contactData[indexPath.row]
-        cell.configure(with: item)
+       let contactDataItem = contactData[indexPath.row]
+       cell.configure(with: contactDataItem)
        return cell
     }
     
@@ -149,4 +145,31 @@ extension HomeViewController : UITableViewDataSource {
     }
 }
 
+
+
+extension HomeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let pretext = searchBar.text{
+            searchConatact(query: pretext + text)
+        }
+        return true
+    }
+    
+    func searchConatact(query: String){
+        filterData.removeAll()
+
+        for contact in contactData {
+            if contact.firstName.starts(with: query){
+                 filterData.append(contact)
+            }
+        }
+        
+        if !query.isEmpty{
+            let vc = SearchViewController()
+            let naVC = UINavigationController(rootViewController: vc)
+            vc.filterData = filterData
+            present(naVC, animated: true)
+        }
+    }
+}
 
