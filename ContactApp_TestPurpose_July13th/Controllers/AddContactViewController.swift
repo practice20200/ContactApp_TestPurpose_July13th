@@ -179,7 +179,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gradientLayer.frame = view.bounds
-        navigationController?.navigationBar.topItem?.titleView = UIView()
+        navigationController?.navigationBar.topItem?.titleView?.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {

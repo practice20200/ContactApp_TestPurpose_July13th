@@ -44,6 +44,7 @@ class LogInViewController: UIViewController{
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.autocapitalizationType = .none
         tf.returnKeyType = .done
+        tf.isSecureTextEntry = true
         return tf
     }()
     
