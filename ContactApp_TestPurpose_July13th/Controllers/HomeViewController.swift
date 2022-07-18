@@ -23,6 +23,7 @@ class HomeViewController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Enter initials"
         searchBar.autocapitalizationType = .none
+        searchBar.returnKeyType = .done
         return searchBar
     }()
 
@@ -64,26 +65,27 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
         view.addSubview(searchBar)
-        searchBar.becomeFirstResponder()
         searchBar.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         ContactDataReader()
+        navigationController?.navigationBar.topItem?.titleView?.isHidden = false
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableView.frame = view.bounds
         navigationController?.navigationBar.topItem?.titleView = searchBar
+        
     }
 
     
@@ -168,6 +170,7 @@ extension HomeViewController: UISearchBarDelegate {
             let vc = SearchViewController()
             let naVC = UINavigationController(rootViewController: vc)
             vc.filterData = filterData
+            searchBar.searchTextField.resignFirstResponder()
             present(naVC, animated: true)
         }
     }

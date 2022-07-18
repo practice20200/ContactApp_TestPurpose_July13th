@@ -15,8 +15,11 @@ class TabBarViewController: UITabBarController{
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         
        
-        let searchVC = SearchViewController()
-        searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName:"magnifyingglass.circle"), tag: 1)
+//        let searchVC = SearchViewController()
+//        searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName:"magnifyingglass.circle"), tag: 1)
+        
+        let myProfileVC = MyProfileViewController()
+        myProfileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName:"person.circle"), tag: 1)
        
         
         let addVC = AddContactViewController()
@@ -25,7 +28,7 @@ class TabBarViewController: UITabBarController{
         tabBar.backgroundColor = UIColor.systemGray4
         tabBar.tintColor = UIColor.systemGray
 
-        viewControllers = [homeVC, searchVC, addVC]
+        viewControllers = [homeVC, myProfileVC, addVC]
 
     }
 }

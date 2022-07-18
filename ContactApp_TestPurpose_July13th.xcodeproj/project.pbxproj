@@ -27,6 +27,8 @@
 		B3C4625A287EF66E00190AC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3C46258287EF66E00190AC3 /* Main.storyboard */; };
 		B3C4625C287EF67100190AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C4625B287EF67100190AC3 /* Assets.xcassets */; };
 		B3C4625F287EF67100190AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3C4625D287EF67100190AC3 /* LaunchScreen.storyboard */; };
+		B3C545892884821D00DFEFA6 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C545882884821D00DFEFA6 /* MyProfileViewController.swift */; };
+		B3C5458B2884892100DFEFA6 /* PersonDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5458A2884892100DFEFA6 /* PersonDataProvider.swift */; };
 		B3DA19E7287F70DE000C86E6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3DA19E6287F70DE000C86E6 /* GoogleService-Info.plist */; };
 		B3DA19EA287F7382000C86E6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B3DA19E9287F7382000C86E6 /* FirebaseAnalytics */; };
 		B3DA19EC287F7382000C86E6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B3DA19EB287F7382000C86E6 /* FirebaseAuth */; };
@@ -60,6 +62,8 @@
 		B3C4625B287EF67100190AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3C4625E287EF67100190AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3C46260287EF67100190AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3C545882884821D00DFEFA6 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		B3C5458A2884892100DFEFA6 /* PersonDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDataProvider.swift; sourceTree = "<group>"; };
 		B3DA19E6287F70DE000C86E6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B3DA19F1287F7640000C86E6 /* DetailedIndivisdualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedIndivisdualViewController.swift; sourceTree = "<group>"; };
 		B3DA19F328801C81000C86E6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 				B35FCF77287F348D0027FEC9 /* TabBarViewController.swift */,
 				B35FCF79287F36F00027FEC9 /* SearchViewController.swift */,
 				B3DA19F1287F7640000C86E6 /* DetailedIndivisdualViewController.swift */,
+				B3C545882884821D00DFEFA6 /* MyProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -115,6 +120,7 @@
 			children = (
 				B35FCF75287F28B40027FEC9 /* Contact.swift */,
 				B35FCF7D287F55410027FEC9 /* SearchResult.swift */,
+				B3C5458A2884892100DFEFA6 /* PersonDataProvider.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -256,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3C46257287EF66E00190AC3 /* WelcomeViewController.swift in Sources */,
+				B3C5458B2884892100DFEFA6 /* PersonDataProvider.swift in Sources */,
 				B35FCF72287F14280027FEC9 /* Extensions.swift in Sources */,
 				B3C46253287EF66E00190AC3 /* AppDelegate.swift in Sources */,
 				B3DA19F428801C81000C86E6 /* StorageManager.swift in Sources */,
@@ -267,6 +274,7 @@
 				B35FCF76287F28B40027FEC9 /* Contact.swift in Sources */,
 				B35FCF7A287F36F00027FEC9 /* SearchViewController.swift in Sources */,
 				B3DA19F2287F7640000C86E6 /* DetailedIndivisdualViewController.swift in Sources */,
+				B3C545892884821D00DFEFA6 /* MyProfileViewController.swift in Sources */,
 				B35FCF7C287F3B960027FEC9 /* AddContactViewControllerCell.swift in Sources */,
 				B35FCF65287EFE3B0027FEC9 /* SignUpViewController.swift in Sources */,
 				B35FCF67287EFE580027FEC9 /* LogInViewController.swift in Sources */,

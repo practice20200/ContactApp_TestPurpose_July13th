@@ -82,6 +82,18 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         return tf
     }()
     
+    lazy var phoneNumberTF: BaseUITextField = {
+        let tf = BaseUITextField()
+        tf.attributedPlaceholder = NSAttributedString(string: "phone number",
+                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBackground])
+        tf.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        tf.layer.shadowColor = UIColor.lightGray.cgColor
+        tf.autocapitalizationType = .none
+        tf.returnKeyType = .continue
+        tf.keyboardType = .numbersAndPunctuation
+        return tf
+    }()
+    
     lazy var passTF: BaseUITextField = {
         let tf = BaseUITextField()
         tf.attributedPlaceholder = NSAttributedString(string: "password",
@@ -110,6 +122,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         stack.addArrangedSubview(firstNameTF)
         stack.addArrangedSubview(LastNameTF)
         stack.addArrangedSubview(emailTF)
+        stack.addArrangedSubview(phoneNumberTF)
         stack.addArrangedSubview(passTF)
         stack.addArrangedSubview(signupButton)
         stack.spacing = 20
@@ -186,6 +199,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
        firstNameTF.setUnderLine()
        LastNameTF.setUnderLine()
        emailTF.setUnderLine()
+       phoneNumberTF.setUnderLine()
        passTF.setUnderLine()
     
        //Check if user is registered with validationof their email
@@ -238,12 +252,26 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         present(alert, animated: true, completion: nil)
     }
     
+    //Check if phone number was enterted as its type is Int
+    func isphoneNumberValid(){
+        let alertView = UIAlertController(title: "Invalid", message: "Please type only numbers in phone number.", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertView.addAction(OKAction)
+        present(alertView, animated: true)
+    }
+    
     @objc func signUpHandler() {
         
         guard let firstName = firstNameTF.text, !firstName.isEmpty,
               let lastName = LastNameTF.text, !lastName.isEmpty,
               let email = emailTF.text , !email.isEmpty,
+              let phoneNumber = phoneNumberTF.text, !phoneNumber.isEmpty,
               let password = passTF.text, !password.isEmpty, password.count >= 8 else { return }
+        
+        guard Int(phoneNumber) != nil else {
+            isphoneNumberValid()
+            return
+        }
         print("===========User input information correctly")
 
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
@@ -266,8 +294,10 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
                 req.displayName = username
                 
                 //store information in local device
-                UserDefaults.standard.setValue(username, forKey:"name")
+                UserDefaults.standard.setValue(firstName, forKey:"firstName")
+                UserDefaults.standard.setValue(lastName, forKey:"lastName")
                 UserDefaults.standard.setValue(email, forKey:"email")
+                UserDefaults.standard.setValue(phoneNumber, forKey:"phoneNumber")
                 
                 self?.validateEmailAlert()
             }
