@@ -8,13 +8,16 @@
 import UIKit
 import Elements
 import Firebase
+import RxCocoa
+import RxSwift
 
 class AddContactViewController: UIViewController, UINavigationControllerDelegate {
 
     public var completion: ((String, String, String, Int, String) -> Void)?
     private let refContact = Database.database()
 
-
+    private let reactiveViewModel = ReactiveViewModel()
+    private let disposeBag = DisposeBag()
     
     //========== Elements ==========
     lazy var profileImageIV: BaseUIImageView = {
@@ -93,6 +96,24 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         return tf
     }()
     
+    lazy var phoneNumberRuleLabel : BaseUILabel = {
+        let label = BaseUILabel()
+        label.text = "Type Only numbers"
+        label.textColor = .red
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var phoneNumberContent: VStack = {
+        let stack = VStack()
+        stack.addArrangedSubview(phoneNumberTF)
+        stack.addArrangedSubview(phoneNumberRuleLabel)
+        stack.spacing = 10
+       
+        return stack
+    }()
+    
     lazy var addBTN: BaseUIButton = {
         let button = BaseUIButton()
         button.setTitle("Add", for: .normal)
@@ -110,7 +131,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         stack.addArrangedSubview(firstNameTF)
         stack.addArrangedSubview(LastNameTF)
         stack.addArrangedSubview(emailTF)
-        stack.addArrangedSubview(phoneNumberTF)
+        stack.addArrangedSubview(phoneNumberContent)
         stack.addArrangedSubview(addBTN)
         stack.spacing = 20
         stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
@@ -174,6 +195,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         emailTF.delegate = self
         phoneNumberTF.delegate = self
 
+        ResponsiveDesign()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -194,6 +216,20 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     
     
     //===================== Functions =========================
+    func ResponsiveDesign(){
+        //Target: Email textField and Password textField
+        phoneNumberTF.rx.text.map { $0 ?? "" }.bind(to: reactiveViewModel.phoneNumberTextPublishSubject).disposed(by: disposeBag)
+        
+        //Layout
+        //SignUp Button Rule
+        reactiveViewModel.isNumber().bind(to: addBTN.rx.isEnabled).disposed(by: disposeBag)
+        reactiveViewModel.isNumber().map{$0 ? 1 : 0.3}.bind(to: addBTN.rx.alpha).disposed(by: disposeBag)
+        
+        //PhonNumber Rule
+        reactiveViewModel.isNumber().map{$0 ? UIColor.systemBlue : UIColor.systemRed}.bind(to: phoneNumberRuleLabel.rx.textColor).disposed(by: disposeBag) //Color
+        reactiveViewModel.isNumber().map{$0 ? "Valid" : "Type Only Number"}.bind(to: phoneNumberRuleLabel.rx.text).disposed(by: disposeBag) // text
+    }
+    
     func isphoneNumberValid(){
         let alertView = UIAlertController(title: "Invalid", message: "Please type only numbers in phone number.", preferredStyle: .alert)
             let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
