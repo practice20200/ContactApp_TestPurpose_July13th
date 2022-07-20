@@ -23,6 +23,7 @@ struct PersonDataProvider {
             ("Last name", "ex.) Smith"),
             ("Email", "ex.) test@example.com"),
             ("Phone Number", "ex.) 1111111111"),
+            ("Logout", "Logout"),
             ("Account", "Delete Account")
         ]
     }

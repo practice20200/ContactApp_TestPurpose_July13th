@@ -147,8 +147,6 @@ class MyProfileViewController: UIViewController, UINavigationControllerDelegate 
     }
     
     func uploadEdition(key: String, section: Int, modification: Any){
-//        let fireBaseChildName = data[4]
-
         //Modify the information in local device
         let userDefault = UserDefaults.standard
         if section == 0{
@@ -216,7 +214,34 @@ class MyProfileViewController: UIViewController, UINavigationControllerDelegate 
         present(alert, animated: true, completion: nil)
     }
     
-
+    
+    //When users log out
+    func logOutAlert(){
+        let alertView = UIAlertController(title: "Log out", message: "Would you like to log out?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
+        let OKAction = UIAlertAction(title: "Log out", style: .default) { [weak self] _ in
+            self?.logOutAlert()
+        }
+        alertView.addAction(cancelAction)
+        alertView.addAction(OKAction)
+        present(alertView, animated: true)
+    }
+    
+    func logOutHandler(){
+        do{
+            try Auth.auth().signOut()
+            
+            let vc = WelcomeViewController()
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true)
+            print("Successfully log out")
+            
+        }catch{
+            print("Failed to log out")
+        }
+    }
+    
     @objc func didTappedImage(){
         presentPhotoActionSheet()
     }
@@ -238,14 +263,18 @@ extension MyProfileViewController : UITableViewDelegate {
         }else if indexPath.section == 1 {
             contactInformationEdit(key: "lastName", section: 1)
         }else if indexPath.section == 4{
+            logOutAlert()
+        }else if indexPath.section == 5 {
             deleteAccount()
         }
     }
     
     func deleteAccount(){
         let alertView = UIAlertController(title: "Delete Account", message: "Would you like to delete this account?", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Continue", style: .default) {  _ in
+        let confirmAction = UIAlertAction(title: "Continue", style: .default) { [weak self] _ in
             //Move to the delete account process
+            let vc = DeleteViewController()
+            self?.navigationController?.pushViewController(vc, animated: true)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertView.addAction(confirmAction)
@@ -280,8 +309,11 @@ extension MyProfileViewController : UITableViewDataSource {
             cell.textLabel?.text = data[2]
         }else if indexPath.section == 3{
             cell.textLabel?.text = data[3]
-        }else {
+        }else if indexPath.section == 4{
             cell.textLabel?.text = PersonDataProvider.myProfileDataProvider()[4].1
+        }else{
+            cell.textLabel?.text = PersonDataProvider.myProfileDataProvider()[5].1
+            cell.textLabel?.textColor = .systemRed
         }
         return cell
     }
