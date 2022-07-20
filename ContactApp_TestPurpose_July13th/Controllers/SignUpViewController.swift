@@ -8,8 +8,13 @@
 import UIKit
 import Elements
 import Firebase
+import RxCocoa
+import RxSwift
 
 class SignUpViewController: UIViewController, UINavigationControllerDelegate {
+    
+    private let reactiveViewModel = ReactiveViewModel()
+    private let disposeBag = DisposeBag()
     
     private let database = Database.database().reference()
     private var handle: AuthStateDidChangeListenerHandle?
@@ -94,6 +99,15 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         return tf
     }()
     
+    lazy var phoneNumberRuleLabel : BaseUILabel = {
+        let label = BaseUILabel()
+        label.text = "Type Only numbers"
+        label.textColor = .red
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textAlignment = .left
+        return label
+    }()
+    
     lazy var passTF: BaseUITextField = {
         let tf = BaseUITextField()
         tf.attributedPlaceholder = NSAttributedString(string: "password",
@@ -104,6 +118,41 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         tf.returnKeyType = .done
         tf.isSecureTextEntry = true
         return tf
+    }()
+    
+    lazy var passwordRuleLabel : BaseUILabel = {
+        let label = BaseUILabel()
+        label.text = "More than 8 letters"
+        label.textColor = .red
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    lazy var phoneNumberContent: VStack = {
+        let stack = VStack()
+        stack.addArrangedSubview(phoneNumberTF)
+        stack.addArrangedSubview(phoneNumberRuleLabel)
+        stack.spacing = 10
+       
+        return stack
+    }()
+    
+    lazy var passwordRuleContent: VStack = {
+        let stack = VStack()
+        stack.addArrangedSubview(passTF)
+        stack.addArrangedSubview(passwordRuleLabel)
+        stack.spacing = 10
+        return stack
+    }()
+    
+    lazy var latterPart: VStack = {
+        let stack = VStack()
+        stack.addArrangedSubview(phoneNumberContent)
+        stack.addArrangedSubview(passwordRuleContent)
+        stack.spacing = 10
+        return stack
     }()
     
     lazy var signupButton: BaseUIButton = {
@@ -123,8 +172,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         stack.addArrangedSubview(firstNameTF)
         stack.addArrangedSubview(LastNameTF)
         stack.addArrangedSubview(emailTF)
-        stack.addArrangedSubview(phoneNumberTF)
-        stack.addArrangedSubview(passTF)
+        stack.addArrangedSubview(latterPart)
         stack.addArrangedSubview(signupButton)
         stack.spacing = 20
         stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
@@ -137,7 +185,6 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         stack.addArrangedSubview(buttonStack)
         stack.spacing = 25
         stack.alignment = .center
-        stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
         return stack
     }()
     
@@ -177,16 +224,15 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
         ])
         
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTappedImage))
-        gesture.numberOfTapsRequired = 1
-        gesture.numberOfTapsRequired = 1
-        logo.addGestureRecognizer(gesture)
-        scrollView.showsVerticalScrollIndicator = false
+
         
         firstNameTF.delegate = self
         LastNameTF.delegate = self
         emailTF.delegate = self
         passTF.delegate = self
+        
+        ResponsiveDesign()
+        
 
     }
     
@@ -210,14 +256,29 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     
     
     
-    @objc func didTappedImage() {
-            print("Change picture request")
-            presentPhotoActionSheet()
-    }
-    
+   
     
     
     //===================== Functions =========================
+    func ResponsiveDesign(){
+        //Target: Email textField and Password textField
+        phoneNumberTF.rx.text.map { $0 ?? "" }.bind(to: reactiveViewModel.phoneNumberTextPublishSubject).disposed(by: disposeBag)
+        passTF.rx.text.map { $0 ?? "" }.bind(to: reactiveViewModel.passwordTextPublishSubject).disposed(by: disposeBag)
+        
+        //Layout
+        //SignUp Button Rule
+        reactiveViewModel.isValid().bind(to: signupButton.rx.isEnabled).disposed(by: disposeBag)
+        reactiveViewModel.isValid().map{$0 ? 1 : 0.3}.bind(to: signupButton.rx.alpha).disposed(by: disposeBag)
+        
+        //PhonNumber Rule
+        reactiveViewModel.isNumber().map{$0 ? UIColor.systemBlue : UIColor.systemRed}.bind(to: phoneNumberRuleLabel.rx.textColor).disposed(by: disposeBag) //Color
+        reactiveViewModel.isNumber().map{$0 ? "Valid" : "Type Only Number"}.bind(to: phoneNumberRuleLabel.rx.text).disposed(by: disposeBag) // text
+        
+        //Password Rule
+        reactiveViewModel.isPasswordRule().map{$0 ? UIColor.systemBlue : UIColor.systemRed}.bind(to: passwordRuleLabel.rx.textColor).disposed(by: disposeBag) //Color
+        reactiveViewModel.isPasswordRule().map{$0 ? "Valid" : "More than 8 letters"}.bind(to: passwordRuleLabel.rx.text).disposed(by: disposeBag) // text
+    }
+    
     func isEmailValidated(){
         if auth.currentUser != nil {
             
@@ -230,7 +291,6 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
                     }
                 }
             })
-            
         }
     }
     
@@ -277,7 +337,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
 
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
             guard let result = result, error == nil else{
-                print("Auth Error; \(String(describing: error?.localizedDescription))")
+                self?.errorAlert(error: error)
                 return
             }
             print("==========create user: email and password are valid")
@@ -305,6 +365,12 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
        }
     }
     
+    @objc func didTappedImage() {
+            print("Change picture request")
+            presentPhotoActionSheet()
+    }
+    
+    
    func safeEmail(email: String) -> String{
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
@@ -323,6 +389,14 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
             self?.navigationController?.popViewController(animated: true)
         })
+        alertView.addAction(OKAction)
+        present(alertView, animated: true)
+    }
+    
+    func errorAlert(error: Error?){
+        guard let error = error else { return }
+        let alertView = UIAlertController(title: "Error", message: "Sign up was not successfully completed.\(error.localizedDescription).", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertView.addAction(OKAction)
         present(alertView, animated: true)
     }
@@ -374,11 +448,7 @@ extension SignUpViewController: UIImagePickerControllerDelegate {
         picker.dismiss(animated: true, completion: nil)
         print(info)
         guard let selectImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-       logo.image = selectImage
-    }
-
-    func uploadProfilePicture(with data : Data, fileName: String, completion: (Result< String, Error >)  -> Void) {
-
+        logo.image = selectImage
     }
 
     // users cancel
@@ -412,3 +482,5 @@ extension SignUpViewController : UITextFieldDelegate{
         return true
     }
 }
+
+

@@ -8,10 +8,15 @@
 import UIKit
 import Elements
 import Firebase
+import RxCocoa
+import RxSwift
 
 class LogInViewController: UIViewController{
 
     //========== Elements ==========
+    private let reactiveViewModel = ReactiveViewModel()
+    private let disposeBag = DisposeBag()
+    
     private let database = Database.database().reference()
     private var handle: AuthStateDidChangeListenerHandle?
     private let auth = Auth.auth()
@@ -48,6 +53,16 @@ class LogInViewController: UIViewController{
         return tf
     }()
     
+    lazy var passwordRuleLabel : BaseUILabel = {
+        let label = BaseUILabel()
+        label.text = "   More than 8 letters"
+        label.textColor = .red
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var loginButton: BaseUIButton = {
         let button = BaseUIButton()
         button.setTitle("Log in", for: .normal)
@@ -61,10 +76,18 @@ class LogInViewController: UIViewController{
         return button
     }()
     
+    lazy var passwordRuleContent: VStack = {
+        let stack = VStack()
+        stack.addArrangedSubview(passTF)
+        stack.addArrangedSubview(passwordRuleLabel)
+        stack.spacing = 10
+        return stack
+    }()
+    
     lazy var textFieldStack: VStack = {
         let stack = VStack()
         stack.addArrangedSubview(emailTF)
-        stack.addArrangedSubview(passTF)
+        stack.addArrangedSubview(passwordRuleContent)
         stack.spacing = 20
         stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
         return stack
@@ -77,7 +100,7 @@ class LogInViewController: UIViewController{
         stack.addArrangedSubview(loginButton)
         stack.spacing = 30
         stack.alignment = .center
-        stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
+//        stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
         return stack
     }()
     
@@ -117,6 +140,8 @@ class LogInViewController: UIViewController{
         
         emailTF.delegate = self
         passTF.delegate = self
+        
+        ResponsiveDesign()
     }
         
     override func viewWillLayoutSubviews() {
@@ -139,6 +164,21 @@ class LogInViewController: UIViewController{
     
     
     //========== Functions ==========
+    func ResponsiveDesign(){
+        //Target: Email textField and Password textField
+        passTF.rx.text.map { $0 ?? "" }.bind(to: reactiveViewModel.passwordTextPublishSubject).disposed(by: disposeBag)
+        
+        //Layout
+        //SignUp Button Rule
+        reactiveViewModel.isPasswordRule().bind(to: loginButton.rx.isEnabled).disposed(by: disposeBag)
+        reactiveViewModel.isPasswordRule().map{$0 ? 1 : 0.3}.bind(to: loginButton.rx.alpha).disposed(by: disposeBag)
+        
+        
+        //Password Rule
+        reactiveViewModel.isPasswordRule().map{$0 ? UIColor.systemBlue : UIColor.systemRed}.bind(to: passwordRuleLabel.rx.textColor).disposed(by: disposeBag) //Color
+        reactiveViewModel.isPasswordRule().map{$0 ? "Valid" : "More than 8 letters"}.bind(to: passwordRuleLabel.rx.text).disposed(by: disposeBag) // text
+    }
+    
     func isEmailValidated(){
         if auth.currentUser != nil {
             

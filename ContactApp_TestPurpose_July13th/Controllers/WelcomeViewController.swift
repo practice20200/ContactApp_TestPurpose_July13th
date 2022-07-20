@@ -12,39 +12,30 @@ class WelcomeViewController: UIViewController{
 
     lazy var imageView : BaseUIImageView = {
         let iv = BaseUIImageView()
-        iv.image = UIImage(systemName: "folder.badge.person.crop")
+        iv.image = UIImage(systemName: "book.closed.circle")
         let configuration = UIImage.SymbolConfiguration(paletteColors:
                                                             [.systemBackground])
         iv.preferredSymbolConfiguration = configuration
-        iv.widthAnchor.constraint(equalToConstant: 175).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 135).isActive = true
+        iv.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 150).isActive = true
         return iv
         
     }()
 
     lazy var titleLabel: BaseUILabel = {
         let label = BaseUILabel()
-        label.text = ""
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
-                label.font = UIFont.systemFont(ofSize: 30)
-        return label
-    }()
-        
-    lazy var descriptionLabel: BaseUILabel = {
-        let label = BaseUILabel()
         label.text = "Contact"
         label.textColor = .systemBackground
         label.font = UIFont.preferredFont(forTextStyle: .title1)
-        label.numberOfLines = 2
         label.textAlignment = .center
         return label
     }()
     
     lazy var labelsStack: VStack = {
         let stack = VStack()
-        stack.spacing = 20
+        stack.spacing = 10
+        stack.addArrangedSubview(imageView)
         stack.addArrangedSubview(titleLabel)
-        stack.addArrangedSubview(descriptionLabel)
         stack.alignment = .center
         return stack
     }()
@@ -88,14 +79,13 @@ class WelcomeViewController: UIViewController{
         stack.spacing = 20
         stack.addArrangedSubview(labelsStack)
         stack.addArrangedSubview(buttonStack)
-        stack.widthAnchor.constraint(equalToConstant: 300).isActive = true
         return stack
     }()
     
     lazy var contentStack: VStack = {
         let stack = VStack()
-        stack.addArrangedSubview(imageView)
-        stack.addArrangedSubview(latterPart)
+        stack.addArrangedSubview(labelsStack)
+        stack.addArrangedSubview(buttonStack)
         stack.spacing = 20
         stack.alignment = .center
         stack.isLayoutMarginsRelativeArrangement = true

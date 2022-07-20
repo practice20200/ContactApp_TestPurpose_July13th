@@ -21,7 +21,7 @@ extension UITextField {
 
 
 extension String {
-    var isAlphanumeric: Bool {
-        return !isEmpty && range(of: "[0-9]", options: .regularExpression) == nil
+    var IsNumeric : Bool {
+        return !isEmpty && range(of: "[0-9]", options: .regularExpression) != nil
     }
 }

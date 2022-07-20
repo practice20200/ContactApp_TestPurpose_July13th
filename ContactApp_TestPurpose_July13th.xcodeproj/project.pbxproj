@@ -30,6 +30,9 @@
 		B3C545892884821D00DFEFA6 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C545882884821D00DFEFA6 /* MyProfileViewController.swift */; };
 		B3C5458B2884892100DFEFA6 /* PersonDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5458A2884892100DFEFA6 /* PersonDataProvider.swift */; };
 		B3C5458F2885795200DFEFA6 /* DeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5458E2885795100DFEFA6 /* DeleteViewController.swift */; };
+		B3C545922887B8DE00DFEFA6 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = B3C545912887B8DE00DFEFA6 /* RxCocoa */; };
+		B3C545942887B8DE00DFEFA6 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B3C545932887B8DE00DFEFA6 /* RxSwift */; };
+		B3C545972887F92C00DFEFA6 /* ReactiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C545962887F92C00DFEFA6 /* ReactiveViewModel.swift */; };
 		B3DA19E7287F70DE000C86E6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3DA19E6287F70DE000C86E6 /* GoogleService-Info.plist */; };
 		B3DA19EA287F7382000C86E6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B3DA19E9287F7382000C86E6 /* FirebaseAnalytics */; };
 		B3DA19EC287F7382000C86E6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B3DA19EB287F7382000C86E6 /* FirebaseAuth */; };
@@ -66,6 +69,7 @@
 		B3C545882884821D00DFEFA6 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		B3C5458A2884892100DFEFA6 /* PersonDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDataProvider.swift; sourceTree = "<group>"; };
 		B3C5458E2885795100DFEFA6 /* DeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteViewController.swift; sourceTree = "<group>"; };
+		B3C545962887F92C00DFEFA6 /* ReactiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveViewModel.swift; sourceTree = "<group>"; };
 		B3DA19E6287F70DE000C86E6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B3DA19F1287F7640000C86E6 /* DetailedIndivisdualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedIndivisdualViewController.swift; sourceTree = "<group>"; };
 		B3DA19F328801C81000C86E6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -76,12 +80,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3C545942887B8DE00DFEFA6 /* RxSwift in Frameworks */,
 				B3DA19F728809836000C86E6 /* SDWebImage in Frameworks */,
 				B3DA19EA287F7382000C86E6 /* FirebaseAnalytics in Frameworks */,
 				B3DA19EC287F7382000C86E6 /* FirebaseAuth in Frameworks */,
 				B3DA19EE287F7382000C86E6 /* FirebaseDatabase in Frameworks */,
 				B3DA19F0287F7382000C86E6 /* FirebaseStorage in Frameworks */,
 				B3DA19F928809836000C86E6 /* SDWebImageMapKit in Frameworks */,
+				B3C545922887B8DE00DFEFA6 /* RxCocoa in Frameworks */,
 				B35FCF6E287F009E0027FEC9 /* Elements in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,6 +174,7 @@
 		B3C46251287EF66E00190AC3 /* ContactApp_TestPurpose_July13th */ = {
 			isa = PBXGroup;
 			children = (
+				B3C545952887F90B00DFEFA6 /* ViewModel */,
 				B35FCF63287EFBD60027FEC9 /* Resources */,
 				B35FCF62287EFB690027FEC9 /* Views */,
 				B35FCF61287EFB2F0027FEC9 /* Models */,
@@ -176,6 +183,14 @@
 				B3C46260287EF67100190AC3 /* Info.plist */,
 			);
 			path = ContactApp_TestPurpose_July13th;
+			sourceTree = "<group>";
+		};
+		B3C545952887F90B00DFEFA6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B3C545962887F92C00DFEFA6 /* ReactiveViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +217,8 @@
 				B3DA19EF287F7382000C86E6 /* FirebaseStorage */,
 				B3DA19F628809836000C86E6 /* SDWebImage */,
 				B3DA19F828809836000C86E6 /* SDWebImageMapKit */,
+				B3C545912887B8DE00DFEFA6 /* RxCocoa */,
+				B3C545932887B8DE00DFEFA6 /* RxSwift */,
 			);
 			productName = ContactApp_TestPurpose_July13th;
 			productReference = B3C4624F287EF66E00190AC3 /* ContactApp_TestPurpose_July13th.app */;
@@ -235,6 +252,7 @@
 				B35FCF6C287F009E0027FEC9 /* XCRemoteSwiftPackageReference "ElementKit" */,
 				B3DA19E8287F7382000C86E6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				B3DA19F528809836000C86E6 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				B3C545902887B8DE00DFEFA6 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = B3C46250287EF66E00190AC3 /* Products */;
 			projectDirPath = "";
@@ -285,6 +303,7 @@
 				B3C46255287EF66E00190AC3 /* SceneDelegate.swift in Sources */,
 				B35FCF80287F56340027FEC9 /* SearchViewControllerCell.swift in Sources */,
 				B35FCF69287EFF0F0027FEC9 /* HomeViewController.swift in Sources */,
+				B3C545972887F92C00DFEFA6 /* ReactiveViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,6 +529,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		B3C545902887B8DE00DFEFA6 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		B3DA19E8287F7382000C86E6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -533,6 +560,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B35FCF6C287F009E0027FEC9 /* XCRemoteSwiftPackageReference "ElementKit" */;
 			productName = Elements;
+		};
+		B3C545912887B8DE00DFEFA6 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3C545902887B8DE00DFEFA6 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		B3C545932887B8DE00DFEFA6 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3C545902887B8DE00DFEFA6 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 		B3DA19E9287F7382000C86E6 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
